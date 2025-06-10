@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class StudentGrades {
+    static class Student {
+        String name;
+        double grade;
+        Student(String name, double grade) {
+            this.name = name;
+            this.grade = grade;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Student> students = new ArrayList<>();
+        while (true) {
+            System.out.println("\n1.Add Student 2.View Grades 3.Average 4.Exit");
+            int choice = sc.nextInt();
+            sc.nextLine();
+            if (choice == 1) {
+                System.out.print("Enter name: ");
+                String name = sc.nextLine();
+                System.out.print("Enter grade: ");
+                double grade = sc.nextDouble();
+                students.add(new Student(name, grade));
+            } else if (choice == 2) {
+                for (Student s : students)
+                    System.out.println(s.name + ": " + s.grade);
+            } else if (choice == 3) {
+                if (students.isEmpty()) {
+                    System.out.println("No students added.");
+                } else {
+                    double sum = 0;
+                    for (Student s : students)
+                        sum += s.grade;
+                    System.out.println("Average: " + (sum / students.size()));
+                }
+            } else if (choice == 4) break;
+            else System.out.println("Invalid choice");
+        }
+    }
+}
