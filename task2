@@ -1,0 +1,59 @@
+import java.util.*;
+class Stock {
+    String symbol;
+    double price;
+    Stock(String symbol,double price) {
+        this.symbol=symbol;
+        this.price=price;
+    }
+}
+class Portfolio {
+    Map<String,Integer> holdings=new HashMap<>();
+    void buy(String symbol,int quantity) {
+        holdings.put(symbol,holdings.getOrDefault(symbol,0)+quantity);
+    }
+    void sell(String symbol,int quantity) {
+        holdings.put(symbol,Math.max(holdings.getOrDefault(symbol,0)-quantity,0));
+    }
+    void display(Map<String,Stock> market) {
+        double total=0;
+        for(String sym:holdings.keySet()) {
+            int qty=holdings.get(sym);
+            double val=qty*market.get(sym).price;
+            System.out.println(sym+" x"+qty+" = "+val);
+            total+=val;
+        }
+        System.out.println("Total Portfolio Value: "+total);
+    }
+}
+public class StockTradingPlatform {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        Map<String,Stock> market=new HashMap<>();
+        market.put("AAPL",new Stock("AAPL",180));
+        market.put("GOOG",new Stock("GOOG",2700));
+        market.put("TSLA",new Stock("TSLA",900));
+        Portfolio pf=new Portfolio();
+        while(true) {
+            System.out.println("1.Market 2.Buy 3.Sell 4.View Portfolio 5.Exit");
+            int ch=sc.nextInt();
+            if(ch==1) {
+                for(String k:market.keySet())
+                    System.out.println(k+": "+market.get(k).price);
+            } else if(ch==2) {
+                System.out.print("Enter stock symbol: ");
+                String sym=sc.next();
+                System.out.print("Enter quantity: ");
+                int qty=sc.nextInt();
+                if(market.containsKey(sym)) pf.buy(sym,qty);
+            } else if(ch==3) {
+                System.out.print("Enter stock symbol: ");
+                String sym=sc.next();
+                System.out.print("Enter quantity: ");
+                int qty=sc.nextInt();
+                if(market.containsKey(sym)) pf.sell(sym,qty);
+            } else if(ch==4) pf.display(market);
+            else if(ch==5) break;
+        }
+    }
+}
