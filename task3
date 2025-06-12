@@ -1,0 +1,26 @@
+import java.util.*;
+public class SimpleChatBot {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        Map<String,String> responses=new HashMap<>();
+        responses.put("hi","Hello!");
+        responses.put("hello","Hi there!");
+        responses.put("how are you","I'm fine. How can I help?");
+        responses.put("bye","Goodbye!");
+        responses.put("your name","I'm ChatBot.");
+        while(true) {
+            System.out.print("You: ");
+            String input=sc.nextLine().toLowerCase();
+            if(input.equals("exit")) break;
+            boolean matched=false;
+            for(String key:responses.keySet()) {
+                if(input.contains(key)) {
+                    System.out.println("Bot: "+responses.get(key));
+                    matched=true;
+                    break;
+                }
+            }
+            if(!matched) System.out.println("Bot: I don't understand.");
+        }
+    }
+}
